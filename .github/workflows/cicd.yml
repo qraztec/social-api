@@ -11,7 +11,9 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v4
       - name: Set DOCKER_BUILDKIT Environment Variable
-        run: echo "DOCKER_BUILDKIT=0" >> $GITHUB_ENV  
+        run: echo "DOCKER_BUILDKIT=0" >> $GITHUB_ENV
+      - name: Set MONGO_URL Environment Varible
+        run: echo "MONGO_URL=secrets.MONGO_URL" >> $GITHUB_ENV
       - name: Login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     
       - name: Build Docker Image
@@ -29,6 +31,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f social-backend-container
       - name: Run Docker Container
-        env:
-          MONGO_URL: ${{ secrets.MONGO_URL}}
         run: docker run -d -p 8800:8800 --name social-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' qraztec/social_backend
