@@ -26,5 +26,7 @@ jobs:
     steps:
       - name: Pull image from docker hub
         run: docker pull qraztec/social_backend:latest 
+      - name: Delete old container
+        run: docker rm -f social-backend-container
       - name: Run Docker Container
         run: docker run -d -p 8800:8800 --name social-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' qraztec/social_backend
