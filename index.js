@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -10,12 +11,17 @@ const postRoute = require("./routes/posts")
 const multer = require("multer")
 const path = require("path")
 
+
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {console.log("Database connected");})
     .catch(error => console.log(error));
 
 app.use("/images", express.static(path.join(__dirname,"public/images")))
+
+app.use(cors ({
+    origin: 'http://34.209.241.12:3000'
+}));
 
 //middleware
 app.use(express.json());
